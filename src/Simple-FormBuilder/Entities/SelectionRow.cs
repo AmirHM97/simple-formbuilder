@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Simple_Formbuilder.Entities
 {
     public class SelectionRow
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        // [BsonIgnoreIfDefault]
+        // [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }  = Guid.NewGuid().ToString();
         // public Guid FormFieldId { get; set; }
         public int Order { get; set; }
         public string Value { get; set; }

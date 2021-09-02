@@ -17,12 +17,12 @@ namespace Simple_Formbuilder.Dtos
     }
     public class AddRecordsDataDto
     {
-        public Guid FieldId { get; set; }
+        public string FieldId { get; set; }
         public FieldType FieldType { get; set; }
         public string Value { get; set; }
         public List<AddRecordDto> SubRecords { get; set; }
         public decimal? NumberValue { get; set; }
         public DateTimeOffset? DateValue { get; set; }
-        public List<Guid> SelectionIds { get; set; }
+        public List<string> SelectionIds { get; set; }
     }
 }

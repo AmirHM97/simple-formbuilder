@@ -9,8 +9,9 @@ namespace Simple_Formbuilder.Entities
 {
     public class Group
     {
-       
-        public Guid Id { get; set; }= Guid.NewGuid();
+        // [BsonIgnoreIfDefault]
+        // [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
         public string Description { get; set; }
         public int Order { get; set; }

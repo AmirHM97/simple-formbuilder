@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Simple_Formbuilder.Entities
 {
     public class FormField
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        // [BsonIgnoreIfDefault]
+        // [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public string  Description { get; set; }
+        public string Description { get; set; }
         public int Order { get; set; }
         public bool IsAvailable { get; set; }
         public bool IsDeleted { get; set; }

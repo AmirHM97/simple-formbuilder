@@ -24,7 +24,7 @@ namespace Simple_Formbuilder.Dtos
     }
     public class EditGroupDto
     {
-        public Guid Id { get; set; } 
+        public string Id { get; set; } 
         public string Name { get; set; }
         public string Description { get; set; }
         public int Order { get; set; }
@@ -33,7 +33,7 @@ namespace Simple_Formbuilder.Dtos
     }
     public class EditFormFieldDto
     {
-        public Guid Id { get; set; } 
+        public string Id { get; set; } 
         public string Description { get; set; }
         public string Name { get; set; }
         public int Order { get; set; }
@@ -60,7 +60,7 @@ namespace Simple_Formbuilder.Dtos
     }
     public class EditSelectionRowDto
     {
-        public Guid Id { get; set; } 
+        public string Id { get; set; } 
         public int Order { get; set; }
         public string Value { get; set; }
         public string Text { get; set; }
