@@ -31,6 +31,7 @@ namespace Simple_Formbuilder.Entities
         public int? MinLength { get; set; }
         public int? MaxLength { get; set; }
         public FieldType FieldType { get; set; }
+        public string FieldTypeText { get; set; }
         public DateTimeOffset? MinValueDateTimeOffset { get; set; }
         public DateTimeOffset? MaxValueDateTimeOffset { get; set; }
         public List<SelectionRow> SelectionRow { get; set; } = new();

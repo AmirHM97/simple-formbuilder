@@ -24,7 +24,7 @@ namespace Simple_Formbuilder.Extension
                 Order = createFormDto.Order,
                 CreatedTime = DateTimeOffset.UtcNow,
                 LastUpdatedTime = DateTimeOffset.UtcNow,
-                tenantId = createFormDto.tenantId,
+                TenantId = createFormDto.tenantId,
                 UserId = createFormDto.UserId,
                 ObjectId = createFormDto.ObjectId,
                 Groups = MapGroupDtoToGroup(createFormDto.Groups)
@@ -72,6 +72,7 @@ namespace Simple_Formbuilder.Extension
                 Hidden = s.Hidden,
                 Required = s.Required,
                 FieldType = s.FieldType,
+                FieldTypeText=s.FieldType.ToString(),
                 SelectionRow = MapSelectionRowDtoToSelectionRow(s.SelectionRow)
             }).ToList();
             return formFields;

@@ -25,7 +25,7 @@ namespace Simple_Formbuilder.Entities
         public string AdditionalData { get; set; }
         public DateTimeOffset CreatedTime { get; set; }
         public DateTimeOffset LastUpdatedTime { get; set; }
-        public string tenantId { get; set; }
+        public string TenantId { get; set; }
         public string? UserId { get; set; }
         public string? ObjectId { get; set; }
         public string? ServiceId { get; set; }

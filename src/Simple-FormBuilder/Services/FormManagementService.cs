@@ -36,7 +36,7 @@ namespace Simple_Formbuilder.Services
         public async Task<FormsCollection> GetForm(string formId, string tenantId)
         {
             var formCollection = _dbContext.FormsCollection;
-            var form = await formCollection.Find(f => f.Id == formId && f.tenantId == tenantId).FirstOrDefaultAsync();
+            var form = await formCollection.Find(f => f.Id == formId && f.TenantId == tenantId).FirstOrDefaultAsync();
             return form;
         }
         public async Task<List<FormsCollection>> GetAllForms(int pageNumber = 1, int pageSize = 10)
@@ -65,7 +65,7 @@ namespace Simple_Formbuilder.Services
         {
             int skip = (pageNumber - 1) * pageSize;
             var formCollection = _dbContext.FormsCollection;
-            var forms = await formCollection.Find(f => f.tenantId == tenantId && f.IsAvailable).Skip(skip).Limit(pageSize).ToListAsync();
+            var forms = await formCollection.Find(f => f.TenantId == tenantId && f.IsAvailable).Skip(skip).Limit(pageSize).ToListAsync();
             if (forms.Count == 0)
             {
                 return new List<FormsCollection>();
@@ -76,7 +76,7 @@ namespace Simple_Formbuilder.Services
         {
             int skip = (pageNumber - 1) * pageSize;
             var formCollection = _dbContext.FormsCollection;
-            var forms = await formCollection.Find(f => f.tenantId == tenantId).Skip(skip).Limit(pageSize).ToListAsync();
+            var forms = await formCollection.Find(f => f.TenantId == tenantId).Skip(skip).Limit(pageSize).ToListAsync();
             if (forms.Count == 0)
             {
                 return new List<FormsCollection>();

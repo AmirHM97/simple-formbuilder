@@ -6,13 +6,34 @@
         {
             "label": "build",
             "command": "dotnet",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-              },
             "type": "process",
             "args": [
                 "build",
+                "${workspaceFolder}/src/Simple-FormBuilder/Simple-FormBuilder.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/Simple-FormBuilder/Simple-FormBuilder.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
                 "${workspaceFolder}/src/Simple-FormBuilder/Simple-FormBuilder.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
