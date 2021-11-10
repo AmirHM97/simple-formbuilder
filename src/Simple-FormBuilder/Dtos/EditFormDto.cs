@@ -53,8 +53,8 @@ namespace Simple_Formbuilder.Dtos
         public DateTimeOffset? MaxValueDateTimeOffset { get; set; }
         public int? MinLength { get; set; }
         public int? MaxLength { get; set; }
-        public bool Hidden { get; set; }
-        public bool Required { get; set; }
+        public bool? Hidden { get; set; }
+        public bool? Required { get; set; }
         public FieldType FieldType { get; set; }
         public List<EditSelectionRowDto>? SelectionRow { get; set; } = new();
     }
@@ -64,9 +64,9 @@ namespace Simple_Formbuilder.Dtos
         public int Order { get; set; }
         public string Value { get; set; }
         public string Text { get; set; }
-        public string MediaUrl { get; set; }
-        public double Rate { get; set; }
-        public bool IsAvailable { get; set; }
-        public bool DefaultSelected { get; set; }
+        public string? MediaUrl { get; set; }
+        public double? Rate { get; set; }
+        public bool? IsAvailable { get; set; }
+        public bool? DefaultSelected { get; set; }
     }
 }

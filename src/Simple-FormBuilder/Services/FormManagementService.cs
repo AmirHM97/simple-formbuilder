@@ -107,70 +107,177 @@ namespace Simple_Formbuilder.Services
             form.Order = editFormDto.Order;
             form.LastUpdatedTime = DateTimeOffset.UtcNow;
             form.AdditionalData = editFormDto.AdditionalData;
-            foreach (var item in form.Groups)
+            form.Groups = form.Groups.Select(s => { s.IsDeleted = true; return s; }).ToList();
+            foreach (var item in editFormDto.Groups)
             {
-                var group = editFormDto.Groups.FirstOrDefault(f => f.Id == item.Id);
-                if (group == null)
+                var group = form.Groups.FirstOrDefault(f => f.Id == item.Id);
+                if (group is null)
                 {
-                    item.IsAvailable = false;
-                    item.IsAvailable = true;
+                    //! add new
+                    var newGroup = new Group
+                    {
+                        IsAvailable = item.IsAvailable,
+                        IsDeleted = false,
+                        Name = item.Name,
+                        Order = item.Order,
+                        Description = item.Description,
+                        CreatedTime = DateTimeOffset.UtcNow,
+                        LastUpdatedTime = DateTimeOffset.UtcNow,
+                        FormFields = item.FormFields.Select(s => new FormField
+                        {
+                            Description = s.Description,
+                            Name = s.Name,
+                            Order = s.Order,
+                            DisplayName = s.DisplayName,
+                            IsAvailable = s.IsAvailable,
+                            IsDeleted = false,
+                            CreatedTime = DateTimeOffset.UtcNow,
+                            LastUpdatedTime = DateTimeOffset.UtcNow,
+                            CssClass = s.CssClass,
+                            DefaultValue = s.DefaultValue,
+                            AdditionalData = s.AdditionalData,
+                            MinValueNumber = s.MinValueNumber,
+                            MaxValueNumber = s.MaxValueNumber,
+                            MinValueDateTimeOffset = s.MinValueDateTimeOffset,
+                            MaxValueDateTimeOffset = s.MaxValueDateTimeOffset,
+                            MinLength = s.MinLength,
+                            MaxLength = s.MaxLength,
+                            Hidden = s.Hidden ?? false,
+                            Required = s.Required ?? false,
+                            FieldType = s.FieldType,
+                            FieldTypeName = s.FieldType.ToString(),
+                            SelectionRow = s.SelectionRow.Select(ss => new SelectionRow
+                            {
+                                Text = ss.Text,
+                                Value = ss.Value,
+                                Rate = ss.Rate,
+                                IsAvailable = ss.IsAvailable ?? true,
+                                IsDeleted = false,
+                                CreatedTime = DateTimeOffset.UtcNow,
+                                LastUpdatedTime = DateTimeOffset.UtcNow,
+                                DefaultSelected = ss.DefaultSelected ?? false,
+                                MediaUrl = ss.MediaUrl,
+                                Order = s.Order
+                            }).ToList()
+                        }).ToList()
+                    };
+                    form.Groups.Add(newGroup);
                 }
                 else
                 {
-                    item.Name = group.Name;
-                    item.Order = group.Order;
-                    item.Description = group.Description;
-                    item.IsAvailable = group.IsAvailable;
-                    item.LastUpdatedTime = DateTimeOffset.UtcNow;
+                    //!edit
+                    group.Name = item.Name;
+                    group.Order = item.Order;
+                    group.Description = item.Description;
+                    group.IsAvailable = item.IsAvailable;
+                    group.IsDeleted = false;
+                    group.LastUpdatedTime = DateTimeOffset.UtcNow;
+
+                    group.FormFields = group.FormFields.Select(s => { s.IsDeleted = true; return s; }).ToList();
                     foreach (var fieldItem in item.FormFields)
                     {
                         var field = group.FormFields.FirstOrDefault(f => f.Id == fieldItem.Id);
                         if (field == null)
                         {
-                            fieldItem.IsAvailable = false;
-                            fieldItem.IsDeleted = true;
+                            //!add new
+                            var newField = new FormField
+                            {
+                                Description = fieldItem.Description,
+                                Name = fieldItem.Name,
+                                Order = fieldItem.Order,
+                                DisplayName = fieldItem.DisplayName,
+                                IsAvailable = fieldItem.IsAvailable,
+                                IsDeleted = false,
+                                CreatedTime = DateTimeOffset.UtcNow,
+                                LastUpdatedTime = DateTimeOffset.UtcNow,
+                                CssClass = fieldItem.CssClass,
+                                DefaultValue = fieldItem.DefaultValue,
+                                AdditionalData = fieldItem.AdditionalData,
+                                MinValueNumber = fieldItem.MinValueNumber,
+                                MaxValueNumber = fieldItem.MaxValueNumber,
+                                MinValueDateTimeOffset = fieldItem.MinValueDateTimeOffset,
+                                MaxValueDateTimeOffset = fieldItem.MaxValueDateTimeOffset,
+                                MinLength = fieldItem.MinLength,
+                                MaxLength = fieldItem.MaxLength,
+                                Hidden = fieldItem.Hidden ?? false,
+                                Required = fieldItem.Required ?? false,
+                                FieldType = fieldItem.FieldType,
+                                FieldTypeName = fieldItem.FieldType.ToString(),
+                                SelectionRow = fieldItem.SelectionRow.Select(s => new SelectionRow
+                                {
+                                    Text = s.Text,
+                                    Value = s.Value,
+                                    Rate = s.Rate ?? 0,
+                                    IsAvailable = s.IsAvailable ?? true,
+                                    IsDeleted = false,
+                                    CreatedTime = DateTimeOffset.UtcNow,
+                                    LastUpdatedTime = DateTimeOffset.UtcNow,
+                                    DefaultSelected = s.DefaultSelected ?? false,
+                                    MediaUrl = s.MediaUrl,
+                                    Order = s.Order
+                                }).ToList()
+                            };
+                            group.FormFields.Add(newField);
                         }
                         else
                         {
-                            fieldItem.Description = field.Description;
-                            fieldItem.Name = field.Name;
-                            fieldItem.Order = field.Order;
-                            fieldItem.DisplayName = field.DisplayName;
-                            fieldItem.IsAvailable = field.IsAvailable;
-                            fieldItem.CssClass = field.CssClass;
-                            fieldItem.LastUpdatedTime = DateTimeOffset.UtcNow;
-                            fieldItem.DefaultValue = field.DefaultValue;
-                            fieldItem.AdditionalData = field.AdditionalData;
-                            fieldItem.MinValueNumber = field.MinValueNumber;
-                            fieldItem.MaxValueNumber = field.MaxValueNumber;
-                            fieldItem.MinValueDateTimeOffset = field.MinValueDateTimeOffset;
-                            fieldItem.MaxValueDateTimeOffset = field.MaxValueDateTimeOffset;
-                            fieldItem.MinLength = field.MinLength;
-                            fieldItem.MaxLength = field.MaxLength;
-                            fieldItem.Hidden = field.Hidden;
-                            fieldItem.Required = field.Required;
+                            //!edit
+                            field.IsDeleted = false;
+                            field.Description = fieldItem.Description ?? "";
+                            field.Name = fieldItem.Name;
+                            field.Order = fieldItem.Order;
+                            field.DisplayName = fieldItem.DisplayName ?? "";
+                            field.IsAvailable = fieldItem.IsAvailable;
+                            field.CssClass = fieldItem.CssClass ?? "";
+                            field.LastUpdatedTime = DateTimeOffset.UtcNow;
+                            field.DefaultValue = fieldItem.DefaultValue ?? "";
+                            field.AdditionalData = fieldItem.AdditionalData ?? "";
+                            field.MinValueNumber = fieldItem.MinValueNumber ?? 0;
+                            field.MaxValueNumber = fieldItem.MaxValueNumber ?? 0;
+                            field.MinValueDateTimeOffset = fieldItem.MinValueDateTimeOffset;
+                            field.MaxValueDateTimeOffset = fieldItem.MaxValueDateTimeOffset;
+                            field.MinLength = fieldItem.MinLength ?? 0;
+                            field.MaxLength = fieldItem.MaxLength ?? 0;
+                            field.Hidden = fieldItem.Hidden ?? false;
+                            field.Required = fieldItem.Required ?? false;
 
+                            field.SelectionRow = field.SelectionRow.Select(s => { s.IsDeleted = true; return s; }).ToList();
                             foreach (var selectionItem in fieldItem.SelectionRow)
                             {
-                                var selectionRow = field.SelectionRow.FirstOrDefault(f => f.Id == selectionItem.Id);
-                                if (selectionItem == null)
+                                var selection = field.SelectionRow.FirstOrDefault(f => f.Id == selectionItem.Id);
+                                if (selection is null)
                                 {
-                                    selectionItem.IsAvailable = false;
-                                    selectionItem.IsDeleted = true;
+                                    var newSelection = new SelectionRow
+                                    {
+                                        Text = selectionItem.Text,
+                                        Value = selectionItem.Value,
+                                        Rate = selectionItem.Rate ?? 0,
+                                        IsAvailable = selectionItem.IsAvailable ?? true,
+                                        IsDeleted = false,
+                                        CreatedTime = DateTimeOffset.UtcNow,
+                                        LastUpdatedTime = DateTimeOffset.UtcNow,
+                                        DefaultSelected = selectionItem.DefaultSelected ?? false,
+                                        MediaUrl = selectionItem.MediaUrl,
+                                        Order = selectionItem.Order
+                                    };
+                                    field.SelectionRow.Add(newSelection);
                                 }
                                 else
                                 {
-                                    selectionItem.Order = selectionRow.Order;
-                                    selectionItem.Value = selectionRow.Value;
-                                    selectionItem.Text = selectionRow.Text;
-                                    selectionItem.MediaUrl = selectionRow.MediaUrl;
-                                    selectionItem.LastUpdatedTime = DateTimeOffset.UtcNow;
-                                    selectionItem.Rate = selectionRow.Rate;
-                                    selectionItem.IsAvailable = selectionRow.IsAvailable;
-                                    selectionItem.DefaultSelected = selectionRow.DefaultSelected;
+                                    selection.IsDeleted = false;
+                                    selection.Order = selectionItem.Order;
+                                    selection.Value = selectionItem.Value;
+                                    selection.Text = selectionItem.Text;
+                                    selection.MediaUrl = selectionItem.MediaUrl;
+                                    selection.LastUpdatedTime = DateTimeOffset.UtcNow;
+                                    selection.Rate = selectionItem.Rate ?? 0;
+                                    selection.IsAvailable = selectionItem.IsAvailable ?? true;
+                                    selection.DefaultSelected = selectionItem.DefaultSelected ?? false;
                                 }
                             }
+                            field.SelectionRow = field.SelectionRow.Where(w => !w.IsDeleted).ToList();
                         }
+                        group.FormFields = group.FormFields.Where(w => !w.IsDeleted).ToList();
                     }
                 }
             }
@@ -209,4 +316,5 @@ namespace Simple_Formbuilder.Services
             return result.IsAcknowledged && result.ModifiedCount > 0;
         }
     }
+
 }

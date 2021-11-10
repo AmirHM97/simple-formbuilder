@@ -19,19 +19,19 @@ namespace Simple_Formbuilder.Entities
         public int Order { get; set; }
         public bool IsAvailable { get; set; }
         public bool IsDeleted { get; set; }
-        public bool Hidden { get; set; }
-        public bool Required { get; set; }
+        public bool? Hidden { get; set; }
+        public bool? Required { get; set; }
         public DateTimeOffset CreatedTime { get; set; }
         public DateTimeOffset LastUpdatedTime { get; set; }
-        public string CssClass { get; set; }
-        public string DefaultValue { get; set; }
-        public string AdditionalData { get; set; }
+        public string? CssClass { get; set; }
+        public string? DefaultValue { get; set; }
+        public string? AdditionalData { get; set; }
         public float? MinValueNumber { get; set; }
         public float? MaxValueNumber { get; set; }
         public int? MinLength { get; set; }
         public int? MaxLength { get; set; }
         public FieldType FieldType { get; set; }
-        public string FieldTypeText { get; set; }
+        public string FieldTypeName { get; set; }
         public DateTimeOffset? MinValueDateTimeOffset { get; set; }
         public DateTimeOffset? MaxValueDateTimeOffset { get; set; }
         public List<SelectionRow> SelectionRow { get; set; } = new();

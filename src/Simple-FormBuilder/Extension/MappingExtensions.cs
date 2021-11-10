@@ -34,7 +34,7 @@ namespace Simple_Formbuilder.Extension
 
         public static List<Group> MapGroupDtoToGroup(List<GroupDto> groupDto)
         {
-            var groups = groupDto.Select(s => new Group
+            return groupDto.ConvertAll(s => new Group
             {
                 Name = s.Name,
                 Description = s.Description,
@@ -44,13 +44,11 @@ namespace Simple_Formbuilder.Extension
                 LastUpdatedTime = DateTimeOffset.UtcNow,
                 Order = s.Order,
                 FormFields = MapFormFieldDtoToField(s.FormFields)
-            }).ToList();
-
-            return groups;
+            });
         }
         public static List<FormField> MapFormFieldDtoToField(List<FormFieldDto> formFieldDto)
         {
-            var formFields = formFieldDto.Select(s => new FormField
+            var formFields = formFieldDto.ConvertAll(s => new FormField
             {
                 Description = s.Description,
                 Name = s.Name,
@@ -72,14 +70,14 @@ namespace Simple_Formbuilder.Extension
                 Hidden = s.Hidden,
                 Required = s.Required,
                 FieldType = s.FieldType,
-                FieldTypeText=s.FieldType.ToString(),
+                FieldTypeName=s.FieldType.ToString(),
                 SelectionRow = MapSelectionRowDtoToSelectionRow(s.SelectionRow)
-            }).ToList();
+            });
             return formFields;
         }
         public static List<SelectionRow> MapSelectionRowDtoToSelectionRow(List<SelectionRowDto> selectionRowDto)
         {
-            var selectionRows = selectionRowDto.Select(s => new SelectionRow
+            var selectionRows = selectionRowDto.ConvertAll(s => new SelectionRow
             {
                 Text = s.Text,
                 Value = s.Value,
@@ -91,12 +89,12 @@ namespace Simple_Formbuilder.Extension
                 DefaultSelected = s.DefaultSelected,
                 MediaUrl = s.MediaUrl,
                 Order = s.Order
-            }).ToList();
+            });
             return selectionRows;
         }
         public static List<RecordsData> MapAddRecordDataDtoToRecordData(List<AddRecordsDataDto> addRecordsDataDto)
         {
-            return addRecordsDataDto.Select(s => new RecordsData
+            return addRecordsDataDto.ConvertAll(s => new RecordsData
             {
                 FieldId = s.FieldId,
                 FieldType = s.FieldType,
@@ -104,8 +102,7 @@ namespace Simple_Formbuilder.Extension
                 DateValue = s.DateValue,
                 SelectionIds = s.SelectionIds,
                 Value = s.Value,
-                SubRecords = s.SubRecords.Select(w => new RecordsCollection { RecordsData = MapAddRecordDataDtoToRecordData(w.RecordsData) }).ToList()
-            }).ToList();
+                SubRecords = s.SubRecords.ConvertAll(w => new RecordsCollection { RecordsData = MapAddRecordDataDtoToRecordData(w.RecordsData) })            });
         }
     }
 }
